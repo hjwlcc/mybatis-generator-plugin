@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <properties resource="application.properties"/>
+    <!-- 一个数据库一个context,context的子元素必须按照它给出的顺序
+            property*,plugin*,commentGenerator?,jdbcConnection,javaTypeResolver?,
+            javaModelGenerator,sqlMapGenerator?,javaClientGenerator?,table+
+        -->
+
+    <!-- 指定数据库驱动的jdbc驱动jar包的位置 -->
+    <!--
+        <classPathEntry location="D:\work\worktools\apache-maven-3.6.1\Repository\mysql\mysql-connector-java\8.0.22\mysql-connector-java-8.0.22.jar" />
+    -->
+
+    <context id="MSTables" targetRuntime="MyBatis3" defaultModelType="flat">
+        <property name="mybatisVersion" value="3.5.4"/>
+        <!--是否使用分隔符号括住数据库关键字-->
+        <property name="autoDelimitKeywords" value="true"/>
+        <!--分隔符号的开始符号-->
+        <property name="beginningDelimiter" value="`"/>
+        <!--分隔符号的结束号-->
+        <property name="endingDelimiter" value="`"/>
+        <!--文件的编码-->
+        <property name="javaFileEncoding" value="utf-8"/>
+        <!-- 格式化java代码 -->
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+        <!-- 格式化XML代码 -->
+        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+        <!--是否JDK8和启动其特性-->
+        <property name="targetJava8" value="true"/>
+
+        <property name="selectByPrimaryKeyQueryId" value=""/>
+
+        <!--plugin 插件-->
+        <!-- RowBounds 函数，可以限制返回的结果列表的长度，并且可以指定起始位置-->
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>
+        <!--覆盖生成XML文件-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+        <!-- 数据Model Serializable插件 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!-- 数据Model ToString插件 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!-- 查询单条数据插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.SelectOneByExamplePlugin"/>
+        <!-- MySQL分页插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.LimitPlugin">
+            <!-- 通过配置startPage影响Example中的page方法开始分页的页码，默认分页从0开始 -->
+            <property name="startPage" value="0"/>
+        </plugin>
+        <!-- 数据Model链式构建插件 -->
+<!--
+        <plugin type="com.itfsw.mybatis.generator.plugins.ModelBuilderPlugin"/>
+-->
+        <!-- Example Criteria 增强插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.ExampleEnhancedPlugin">
+            <!-- 是否支持已经过时的andIf方法（推荐使用when代替），默认支持 -->
+            <property name="enableAndIf" value="true"/>
+        </plugin>
+        <!-- Example 目标包修改插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.ExampleTargetPlugin">
+            <!-- 修改Example类生成到目标包下 -->
+            <property name="targetPackage" value="com.xfs.micro.salary.payroll.example"/>
+        </plugin>
+        <!-- 批量插入插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.BatchInsertPlugin">
+            <!--
+            开启后可以实现官方插件根据属性是否为空决定是否插入该字段功能
+            ！需开启allowMultiQueries=true多条sql提交操作，所以不建议使用！插件默认不开启
+            -->
+            <property name="allowMultiQueries" value="true"/>
+        </plugin>
+        <!-- 数据Model属性对应Column获取插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.ModelColumnPlugin"/>
+        <!-- 存在即更新插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.UpsertPlugin">
+            <!--
+            支持upsertByExample，upsertByExampleSelective操作
+            ！需开启allowMultiQueries=true多条sql提交操作，所以不建议使用！插件默认不开启
+            -->
+            <property name="allowMultiQueries" value="true"/>
+            <!--
+            开启批量功能，支持batchUpsert,batchUpsertWithBLOBs,batchUpserSelective
+            ！这几个方法中无法支持IncrementsPlugin的方法！插件默认不开启
+            -->
+            <property name="allowBatchUpsert" value="true"/>
+        </plugin>
+        <!-- Selective选择插入更新增强插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.SelectiveEnhancedPlugin"/>
+        <!-- Lombok插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.LombokPlugin">
+            <!-- @Data 默认开启,同时插件会对子类自动附加@EqualsAndHashCode(callSuper = true)，@ToString(callSuper = true) -->
+            <property name="@Data" value="true"/>
+            <!-- @Builder 必须在 Lombok 版本 >= 1.18.2 的情况下开启，对存在继承关系的类自动替换成@SuperBuilder -->
+            <property name="@Builder" value="true"/>
+            <!-- @NoArgsConstructor 和 @AllArgsConstructor 使用规则和Lombok一致 -->
+            <property name="@AllArgsConstructor" value="true"/>
+            <property name="@NoArgsConstructor" value="true"/>
+            <!-- @Getter、@Setter、@Accessors 等使用规则参见官方文档 -->
+            <property name="@Accessors(chain = true)" value="false"/>
+            <!-- 临时解决IDEA工具对@SuperBuilder的不支持问题，开启后(默认未开启)插件在遇到@SuperBuilder注解时会调用ModelBuilderPlugin来生成相应的builder代码 -->
+            <property name="supportSuperBuilderForIdea" value="false"/>
+        </plugin>
+        <!-- 数据ModelCloneable插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.ModelCloneablePlugin"/>
+        <!-- 状态枚举生成插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.EnumTypeStatusPlugin">
+            <!-- 是否开启自动扫描根据约定注释格式生成枚举，默认true 枚举字段注释格式如：'注释[success(0):成功, fail(1):失败]' -->
+            <property name="autoScan" value="false"/>
+            <!-- autoScan为false,这里可以定义全局需要检查生成枚举类的列名 -->
+            <!--<property name="enumColumns" value="type, status"/>-->
+        </plugin>
+        <!-- Mapper注解插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.MapperAnnotationPlugin">
+            <!-- @Mapper 默认开启 -->
+            <property name="@Mapper" value="false"/>
+            <!-- @Repository 默认关闭，开启后解决IDEA工具@Autowired报错 -->
+            <property name="@Repository" value="true"/>
+        </plugin>
+        <!--选择性返回-->
+        <plugin type="com.itfsw.mybatis.generator.plugins.SelectSelectivePlugin"/>
+        <!-- MySQL分页插件 -->
+<!--        <plugin type="com.itfsw.mybatis.generator.plugins.LimitPlugin">
+            &lt;!&ndash; 通过配置startPage影响Example中的page方法开始分页的页码，默认分页从0开始 &ndash;&gt;
+            <property name="startPage" value="0"/>
+        </plugin>-->
+        <!--plugin 插件-->
+        <!-- 自定义注释插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.CommentPlugin">
+            <!-- 自定义模板路径 -->
+            <property name="template" value="src/main/resources/mybatis-generator-comment.ftl" />
+        </plugin>
+
+        <commentGenerator >
+            <!-- 是否不生成注释 -->
+            <property name="suppressAllComments" value="false"/>
+            <!--生成的注释包含时间戳-->
+            <property name="suppressDate" value="true"/>
+            <!--是否输出表和列的Comment信息-->
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 预发布数据库连接地址 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.3.155/salary_xfs?useSSL=false"
+                        userId="xinfushe"
+                        password="Wjx47VZjD7nySMV9">
+            <!-- 针对mysql数据库 -->
+            <!--<property name="useInformationSchema" value="true"/>-->
+        </jdbcConnection>
+
+        <!--        <jdbcConnection driverClass="${spring.datasource.druid.driver-class-name}"
+                                connectionURL="${spring.datasource.druid.url}"
+                                userId="${spring.datasource.druid.username}"
+                                password="${spring.datasource.druid.password}">
+                    &lt;!&ndash;高版本的 mysql-connector-java 需要设置 nullCatalogMeansCurrent=true&ndash;&gt;
+                    <property name="nullCatalogMeansCurrent" value="true"/>
+                </jdbcConnection>-->
+
+        <javaTypeResolver type="com.itfsw.mybatis.generator.plugins.utils.SalaryJavaTypeResolver">
+            <!--是否使用 bigDecimal，默认false。
+        false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer
+        true，把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal-->
+            <property name="forceBigDecimals" value="true" />
+            <!--默认false
+                false，将所有 JDBC 的时间类型解析为 java.util.Date
+                true，将 JDBC 的时间类型按如下规则解析
+                    DATE	                -> java.time.LocalDate
+                    TIME	                -> java.time.LocalTime
+                    TIMESTAMP                   -> java.time.LocalDateTime
+                    TIME_WITH_TIMEZONE  	-> java.time.OffsetTime
+                    TIMESTAMP_WITH_TIMEZONE	-> java.time.OffsetDateTime
+                -->
+            <property name="useJSR310Types" value="false"/>
+        </javaTypeResolver>
+        <!--控制实体（Model）类的代码生成行为-->
+        <javaModelGenerator targetPackage="com.xfs.micro.salary.payroll.model" targetProject="src/main/java">
+            <!-- 是否让schema作为包的后缀，默认为false -->
+            <property name="enableSubPackages" value="true"/>
+            <!-- 是否针对string类型的字段在set方法中进行修剪，默认false -->
+            <property name="trimStrings" value="true"/>
+            <!--是否生成一个带有所有字段属性的构造函数-->
+            <property name="constructorBased" value="false"/>
+            <!--生成的伴随实体类的Example类的包名-->
+            <property name="exampleTargetPackage" value="false"/>
+            <!--生成的伴随实体类的Example类文件相对于项目（根目录）的位置-->
+            <property name="exampleTargetProject" value="src/main/java"/>
+            <!--为生成的实体类添加父类-->
+            <!--<property name="rootClass" value=""/>-->
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mapper.salary" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!--控制Mapper接口的代码生成行为-->
+        <!--
+        ANNOTATEDMAPPER 接口的实现通过注解方式
+        XMLMAPPER：Mapper接口生成接口方法，对应的实现代码生成在XML映射文件中（也就是纯映射文件实现）
+        MIXEDMAPPER：Mapper接口生成的时候复杂的方法实现生成在XML映射文件中，而简单的实现通过注解和SqlProviders实现（也就是注解和映射文件混合实现
+        -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.xfs.micro.salary.payroll.mapper"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <!--是否通过SQL Builder生成动态SQL-->
+            <property name="useLegacyBuilder" value="false"/>
+        </javaClientGenerator>
+
+
+       <!-- <table tableName="cm_corp_tag_config" domainObjectName="CmCorpTagConfig" enableCountByExample="true"
+               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            &lt;!&ndash;<columnOverride column="tag_type" javaType="com.xfs.micro.salary.enump.TagTypeEnums" jdbcType="INTEGER"/>
+            <columnOverride column="tag_cal_type" javaType="com.xfs.micro.salary.enump.TagCalTypeEnums" jdbcType="INTEGER"/>&ndash;&gt;
+        </table>-->
+<!--        <table tableName="cm_corp_tag_detail" domainObjectName="CmCorpTagDetail" enableCountByExample="true"
+               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>-->
+        <!-- <table tableName="cm_corp_external_user" domainObjectName="CmCorpExternalUser" enableCountByExample="true"
+                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+                selectByExampleQueryId="true">
+             <property name="useActualColumnNames" value="false"/>
+             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+         </table>-->
+        <!--  <table tableName="salary_question_config" domainObjectName="SalaryQuestionConfig" enableCountByExample="true"
+                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+                selectByExampleQueryId="true">
+             <property name="useActualColumnNames" value="false"/>
+             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+         </table>
+        <table tableName="salary_user_question" domainObjectName="SalaryUserQuestion" enableCountByExample="true"
+                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+                selectByExampleQueryId="true">
+             <property name="useActualColumnNames" value="false"/>
+             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+         </table>-->
+<!--        <table tableName="salary_payroll_attendance" domainObjectName="SalaryPayrollAttendance" enableCountByExample="true"-->
+<!--               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="salary_payroll_bill_relation" domainObjectName="SalaryPayrollBillRelation" enableCountByExample="true"-->
+<!--               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="salary_payroll_detail" domainObjectName="SalaryPayrollDetail" enableCountByExample="true"
+               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>-->
+<!--        <table tableName="salary_payroll_month_plan_log" domainObjectName="SalaryPayrollMonthPlanLog" enableCountByExample="true"-->
+<!--               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="salary_payroll_month_plan" domainObjectName="SalaryPayrollMonthPlan" enableCountByExample="true"-->
+<!--               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+
+        <table tableName="salary_payroll_plan" domainObjectName="SalaryPayrollPlan" >
+            <property name="useActualColumnNames" value="false"/>
+            <property name="enumColumns" value="start_type"/>
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+<!--        <table tableName="salary_payroll_plan_emp" domainObjectName="SalaryPayrollPlanEmp" enableCountByExample="true"-->
+<!--               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="salary_payroll_plan_img" domainObjectName="SalaryPayrollPlanImg" enableCountByExample="true"-->
+<!--               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="salary_payroll_plan_item" domainObjectName="SalaryPayrollPlanItem" enableCountByExample="true"-->
+<!--               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="salary_payroll_plan_item_type" domainObjectName="SalaryPayrollPlanItemType" enableCountByExample="true"-->
+<!--               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="salary_payroll_plan_model" domainObjectName="SalaryPayrollPlanModel" enableCountByExample="true"-->
+<!--               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="salary_payroll_plan_sheet" domainObjectName="SalaryPayrollPlanSheet" enableCountByExample="true"-->
+<!--               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="salary_payroll_plan_social" domainObjectName="SalaryPayrollPlanSocial" enableCountByExample="true"-->
+<!--               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="salary_payroll_dict" domainObjectName="SalaryPayrollDict" enableCountByExample="true"-->
+<!--               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+        <!--<table tableName="tax_area" domainObjectName="SalaryTaxArea" enableCountByExample="true"
+               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>-->
+       <!-- <table tableName="tax_area_ratio" domainObjectName="SalaryTaxAreaRatio" enableCountByExample="true"
+               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>-->
+<!--        <table tableName="salary_payroll_permission" domainObjectName="SalaryPayrollPermission" >-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+    </context>
+</generatorConfiguration>
