@@ -33,7 +33,7 @@
         <!-- Model模型生成器,用来生成含有主键key的类，记录类 以及查询Example类
             targetPackage     指定生成的model生成所在的包名
             targetProject     指定在该项目下所在的路径  -->
-        <javaModelGenerator targetPackage="" targetProject="">
+        <javaModelGenerator targetPackage="com.hjw.test" targetProject="src/main/test">
             <!-- 是否对model添加 构造函数 -->
             <property name="constructorBased" value="true"/>
             <!-- 给Model添加一个父类 -->
@@ -45,7 +45,11 @@
             type="ANNOTATEDMAPPER",生成Java Model 和基于注解的Mapper对象
             type="MIXEDMAPPER",生成基于注解的Java Model 和相应的Mapper对象
             type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口 -->
-        <javaClientGenerator targetPackage="" targetProject="" type="XMLMAPPER"/>
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.hjw.test" targetProject="src/main/test">
+            <property name="enableSubPackages" value="true"/>
+            <!--是否通过SQL Builder生成动态SQL-->
+            <property name="useLegacyBuilder" value="false"/>
+        </javaClientGenerator>
 
         <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 要自动生成的表 +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
         <table tableName="tb">
